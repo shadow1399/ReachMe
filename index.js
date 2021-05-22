@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const routes = require("./routes");
 const db = require("./config/mongoose");
-const UserCollection = require("./models/userSchema");
+
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.use(express.urlencoded());
