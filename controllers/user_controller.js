@@ -4,12 +4,17 @@ module.exports.user = function (req, res) {
 }
 
 module.exports.profile = function (req, res) {
+
+    console.log(res.locals);
     return res.render("profile", {
-        userName: "Satyansh Vaish"
+        userName: res.locals.user.name
     });
 }
 
 module.exports.signup = function (req, res) {
+    if (req.isAuthenticated()) {
+        return res.redirect("/user/profile");
+    }
     return res.render("user_signup");
 }
 module.exports.create = function (req, res) {
@@ -21,9 +26,21 @@ module.exports.create = function (req, res) {
         }
         console.log("*******", newContact);
     })
-    return res.redirect("back");
+    return res.redirect("/user/signin");
 }
 
 module.exports.signin = function (req, res) {
+    if (req.isAuthenticated()) {
+        return res.redirect("/user/profile");
+    }
     return res.render("user_signin");
+}
+module.exports.createSession = function (req, res) {
+
+    return res.redirect("/user/profile");
+}
+
+module.exports.signout = function (req, res) {
+    req.logout();
+    res.redirect("/user/signin");
 }
