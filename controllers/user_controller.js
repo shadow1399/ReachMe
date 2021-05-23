@@ -4,12 +4,19 @@ module.exports.user = function (req, res) {
 }
 
 module.exports.profile = function (req, res) {
-    return res.render("profile", {
-        userName: "Satyansh Vaish"
-    });
+    if (req.cookies.userId) {
+        return res.render("profile", {
+            userName: "Satyansh Vaish"
+        });
+    }
+    return res.redirect("/user/signin");
+
 }
 
 module.exports.signup = function (req, res) {
+    if (req.cookies.userId) {
+        return res.redirect("/user/profile");
+    }
     return res.render("user_signup");
 }
 module.exports.create = function (req, res) {
@@ -25,5 +32,34 @@ module.exports.create = function (req, res) {
 }
 
 module.exports.signin = function (req, res) {
+    if (req.cookies.userId) {
+        return res.redirect("/user/profile");
+    }
     return res.render("user_signin");
+}
+
+module.exports.createSession = function (req, res) {
+    // console.log(req.body);
+    UserCollection.find({ email: req.body.email }, function (err, user) {
+        if (err) {
+            console.log("Erro in creating Session", err);
+            return;
+
+        }
+        // console.log(user);
+        if (user[0].password != req.body.password) {
+            // console.log(user[0].password, req.body.password);
+            return res.redirect("back");
+        }
+        // console.log("YEahhh!!");
+        res.cookie("userId", user[0]._id);
+        return res.redirect("/user/profile");
+
+    })
+}
+
+module.exports.signout = function (req, res) {
+    // console.log(req.cookies);
+    res.clearCookie('userId');
+    return res.redirect("/user/signin");
 }
