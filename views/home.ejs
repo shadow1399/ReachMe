@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+    <h1>Welcome to REACH_ME</h1>
+    <% if(locals.user) {%>
+        <form action="/post/create" method="POST">
+            <textarea name="content" cols="30" rows="3" placeholder="Text Here...."></textarea>
+            <button type="submit">POST</button>
+        </form>
+        <%}%>
+
+            <div>
+                <ul>
+
+                    <%for (post of post_list) {%>
+                        <li>
+                            <p>
+                                <%=post.content%>
+                            </p>
+                            <p>Created By:
+                                <%=post.user.name%>
+                            </p>
+                        </li>
+
+                        <%}%>
+
+                </ul>
+            </div>
+</body>
+
+</html>
