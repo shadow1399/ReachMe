@@ -10,7 +10,7 @@ module.exports.create = function (req, res) {
             return;
 
         }
-        console.log("***", newPost);
+        // console.log("***", newPost);
         return res.redirect("back");
     })
 }

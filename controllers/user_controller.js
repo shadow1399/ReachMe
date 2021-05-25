@@ -5,7 +5,7 @@ module.exports.user = function (req, res) {
 
 module.exports.profile = function (req, res) {
 
-    console.log(res.locals);
+    // console.log(res.locals);
     return res.render("profile", {
         userName: res.locals.user.name
     });
@@ -24,7 +24,7 @@ module.exports.create = function (req, res) {
             console.log(`Error on adding Contact ${err}`);
             return;
         }
-        console.log("*******", newContact);
+        // console.log("*******", newContact);
     })
     return res.redirect("/user/signin");
 }

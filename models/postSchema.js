@@ -8,7 +8,14 @@ const postSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserCollection'
-    }
+    },
+    comment: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'CommentCollection'
+        }
+    ]
+
 });
 
 const postModel = mongoose.model("PostCollection", postSchema);
