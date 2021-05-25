@@ -28,6 +28,13 @@
                             <p>Created By:
                                 <%=post.user.name%>
                             </p>
+
+                            <% if(locals.user && locals.user.id==post.user.id){%>
+                                <a href="/post/delete/<%=post.id%>">
+                                    <button>Delete</button>
+                                </a>
+                                <%}%>
+
                         </li>
 
                         <div>
