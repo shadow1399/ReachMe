@@ -68,6 +68,19 @@
 
                 </ul>
             </div>
+            <div>
+                <h1>Friends</h1>
+                <ul>
+                    <% for(friend of all_friends){%>
+                        <li>
+                            <a href="/user/profile/<%=friend.id%>">
+                                <%=friend.name%>
+                            </a>
+                        </li>
+
+                        <%}%>
+                </ul>
+            </div>
 </body>
 
 </html>

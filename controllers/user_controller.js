@@ -3,17 +3,24 @@ module.exports.user = function (req, res) {
     res.send("<h1>Welcome User</h1>");
 }
 
-module.exports.profile = function (req, res) {
+module.exports.profile = async function (req, res) {
 
     // console.log(res.locals);
-    return res.render("profile", {
-        userName: res.locals.user.name
-    });
+    try {
+        let friends = await UserCollection.findById(req.params.id);
+        return res.render("profile", {
+            friend: friends
+        });
+    } catch (err) {
+        console.log(err);
+        return;
+    }
+
 }
 
 module.exports.signup = function (req, res) {
     if (req.isAuthenticated()) {
-        return res.redirect("/user/profile");
+        return res.redirect("/");
     }
     return res.render("user_signup");
 }
@@ -31,16 +38,39 @@ module.exports.create = function (req, res) {
 
 module.exports.signin = function (req, res) {
     if (req.isAuthenticated()) {
-        return res.redirect("/user/profile");
+        return res.redirect("/");
     }
     return res.render("user_signin");
 }
 module.exports.createSession = function (req, res) {
 
-    return res.redirect("/user/profile");
+    return res.redirect("/");
 }
 
 module.exports.signout = function (req, res) {
     req.logout();
     res.redirect("/user/signin");
+}
+
+module.exports.update = async function (req, res) {
+
+    try {
+        let user_found = await UserCollection.findOne({ email: req.body.email });
+        // console.log("***", req.user.id, user_found._id);
+        if (user_found && req.user.id == user_found.id) {
+
+            user_found.name = req.body.name;
+            user_found.email = req.body.email;
+            user_found.save();
+            if (user_found.email != req.body.email) {
+                console.log("Email Already Exists");
+            }
+
+        }
+        return res.redirect("back");
+    } catch (err) {
+        console.log("Error in updating info", err);
+        return;
+    }
+
 }

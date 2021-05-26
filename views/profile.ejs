@@ -9,11 +9,19 @@
 </head>
 
 <body>
-    <h1>Welcome <%= userName%>
+    <h1>Welcome <%=friend.name%>
     </h1>
-    <a href="/user/signout">
-        <button>SignOut</button>
-    </a>
+
+    <%if(locals.user && locals.user.id==friend.id){%>
+        <a href="/user/signout">
+            <button>SignOut</button>
+        </a>
+        <form action="/user/update" method="POST">
+            <input type="text" name="name" value="<%=friend.name%>">
+            <input type="text" name="email" value="<%=friend.email%>">
+            <input type="submit" value="Update">
+        </form>
+        <%}%>
 </body>
 
 </html>
