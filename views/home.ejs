@@ -54,6 +54,11 @@
                                     <p>
                                         <%=comment.user.name%>
                                     </p>
+                                    <% if(locals.user && locals.user.id==comment.user.id){%>
+                                        <a href="/comment/delete/<%=comment.id%>">
+                                            <button>Delete</button>
+                                        </a>
+                                        <%}%>
                                 </li>
 
                                 <%}%>
