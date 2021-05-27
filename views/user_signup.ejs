@@ -5,6 +5,8 @@
     <title></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
 
 </head>
 
@@ -17,6 +19,18 @@
         <input type="password" name="cpassword" placeholder="Re-Enter Your Password" required>
         <button type="submit">Sign Up</button>
     </form>
+    <script>
+
+        <%if (locals.error && locals.error.length > 0) {%>
+            new Noty({
+                theme: "relax",
+                text: "<%=error%>",
+                layout: "topRight",
+                timeout: 1500,
+                type: "error"
+            }).show();
+        <%}%>
+    </script>
 </body>
 
 </html>

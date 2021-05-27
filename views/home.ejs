@@ -5,11 +5,14 @@
     <title></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
 
 </head>
 
 <body>
     <h1>Welcome to REACH_ME</h1>
+
     <% if(locals.user) {%>
         <form action="/post/create" method="POST">
             <textarea name="content" cols="30" rows="3" placeholder="Text Here...." required></textarea>
@@ -81,6 +84,19 @@
                         <%}%>
                 </ul>
             </div>
+
+            <script>
+
+                        <%if (locals.success && locals.success.length > 0) {%>
+                    new Noty({
+                        theme: "relax",
+                        text: "<%=success%>",
+                        layout: "topRight",
+                        timeout: 1500,
+                        type: "success"
+                    }).show();
+                        <%}%>
+            </script>
 </body>
 
 </html>

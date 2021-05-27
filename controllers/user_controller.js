@@ -24,16 +24,25 @@ module.exports.signup = function (req, res) {
     }
     return res.render("user_signup");
 }
-module.exports.create = function (req, res) {
+module.exports.create = async function (req, res) {
 
-    UserCollection.create(req.body, function (err, newContact) {
-        if (err) {
-            console.log(`Error on adding Contact ${err}`);
-            return;
+    try {
+        if (req.body.password != req.body.cpassword) {
+            req.flash("error", "Password and Confirm Password should be same.");
+            return res.redirect("/user/signup");
         }
+
+        let newContact = await UserCollection.create(req.body);
+
         // console.log("*******", newContact);
-    })
-    return res.redirect("/user/signin");
+        // console.log("Error here");
+        return res.redirect("/user/signin");
+    } catch (err) {
+        req.flash("error", "Email already exists");
+        // console.log("Error on add contacts");
+        return res.redirect("back");
+    }
+
 }
 
 module.exports.signin = function (req, res) {
@@ -43,13 +52,14 @@ module.exports.signin = function (req, res) {
     return res.render("user_signin");
 }
 module.exports.createSession = function (req, res) {
-
+    req.flash("success", "Logged In Successfully!!");
     return res.redirect("/");
 }
 
 module.exports.signout = function (req, res) {
     req.logout();
-    res.redirect("/user/signin");
+    req.flash("success", "Logged Out Successfully!!");
+    res.redirect("/");
 }
 
 module.exports.update = async function (req, res) {

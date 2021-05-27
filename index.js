@@ -18,6 +18,11 @@ app.use(session({
     cookie: { maxAge: 600000 }
 }));
 app.use(flash());
+app.use(function (req, res, next) {
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    next();
+})
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(passportLocalStrategy.setAuthentication);
