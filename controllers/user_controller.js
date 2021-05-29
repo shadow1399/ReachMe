@@ -1,4 +1,6 @@
 const UserCollection = require("../models/userSchema");
+const fs = require("fs");
+const path = require("path");
 module.exports.user = function (req, res) {
     res.send("<h1>Welcome User</h1>");
 }
@@ -65,22 +67,42 @@ module.exports.signout = function (req, res) {
 module.exports.update = async function (req, res) {
 
     try {
-        let user_found = await UserCollection.findOne({ email: req.body.email });
-        // console.log("***", req.user.id, user_found._id);
-        if (user_found && req.user.id == user_found.id) {
+        // console.log("PRint parama", req.params);
 
-            user_found.name = req.body.name;
-            user_found.email = req.body.email;
-            user_found.save();
-            if (user_found.email != req.body.email) {
-                console.log("Email Already Exists");
-            }
+        let user_found = await UserCollection.findOne({ _id: req.params.id });
+        // console.log("***", req.user.id, user_found.id);
+        if (user_found && req.user.id == user_found.id) {
+            UserCollection.uploadAvatar(req, res, function (err) {
+
+                // console.log(req.file, req.body);
+                user_found.name = req.body.name;
+                user_found.email = req.body.email;
+                if (req.file) {
+                    if (user_found.avatar) {
+                        // console.log(user_found.avatar);
+                        fs.unlinkSync(path.join(__dirname, "..", user_found.avatar));
+                    }
+                    user_found.avatar = UserCollection.uploadPath + "/" + req.file.filename;
+                }
+                user_found.save();
+                return res.redirect("back");
+            })
+
+            // user_found.name = req.body.name;
+            // user_found.email = req.body.email;
+            // user_found.save();
+            // if (user_found.email != req.body.email) {
+            //     console.log("Email Already Exists");
+            // }
 
         }
-        return res.redirect("back");
+        else {
+            return res.redirect("back");
+        }
+
     } catch (err) {
         console.log("Error in updating info", err);
-        return;
+        return res.redirect("back");
     }
 
 }

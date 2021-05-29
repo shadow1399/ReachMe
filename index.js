@@ -11,6 +11,8 @@ const passportLocalStrategy = require("./config/passport_local_strategy");
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.use(express.urlencoded());
+app.use(express.static("assets"));
+app.use("/uploads", express.static("uploads"));
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
