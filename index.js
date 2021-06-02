@@ -8,6 +8,8 @@ const app = express();
 const routes = require("./routes");
 const db = require("./config/mongoose");
 const passportLocalStrategy = require("./config/passport_local_strategy");
+const passportGoogle = require("passport-google-oauth");
+const passportGoogleStrategy = require("./config/passport_google_strategy");
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.use(express.urlencoded());

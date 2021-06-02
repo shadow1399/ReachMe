@@ -61,7 +61,7 @@ module.exports.createSession = function (req, res) {
 module.exports.signout = function (req, res) {
     req.logout();
     req.flash("success", "Logged Out Successfully!!");
-    res.redirect("/");
+    return res.redirect("/");
 }
 
 module.exports.update = async function (req, res) {

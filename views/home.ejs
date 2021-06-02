@@ -86,15 +86,17 @@
             </div>
 
             <script>
-
+                        <% console.log(locals.success) %>
                         <% if (locals.success && locals.success.length > 0) {%>
                     new Noty({
                         theme: "relax",
                         text: "<%=success%>",
                         layout: "topRight",
                         timeout: 1500,
-                        type: "success"
+                        type: "success",
+
                     }).show();
+                        <% locals.success=null %>
                         <%}%>
             </script>
 </body>
