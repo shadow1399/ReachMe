@@ -1,6 +1,7 @@
 const UserCollection = require("../models/userSchema");
 const fs = require("fs");
 const path = require("path");
+const signupMailer = require("../mailers/signup_mailers");
 module.exports.user = function (req, res) {
     res.send("<h1>Welcome User</h1>");
 }
@@ -38,6 +39,7 @@ module.exports.create = async function (req, res) {
 
         // console.log("*******", newContact);
         // console.log("Error here");
+        signupMailer.newSignup(newContact);
         return res.redirect("/user/signin");
     } catch (err) {
         req.flash("error", "Email already exists");
